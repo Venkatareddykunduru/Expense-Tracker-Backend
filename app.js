@@ -1,13 +1,13 @@
 const express=require('express');
 const cors=require('cors');
 const bodyparser=require('body-parser');
-const userroutes=require('./routes/user');
+const userauthroutes=require('./routes/user');
 const sequelize=require('./util/database');
 const app=express();
 app.use(cors());
 app.use(bodyparser.json());
 
-app.use(userroutes);
+app.use('/auth',userauthroutes);
 
 PORT=3000; 
 
