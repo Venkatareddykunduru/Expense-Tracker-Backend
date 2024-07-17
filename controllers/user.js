@@ -1,12 +1,14 @@
 const User = require('../models/user');
+const bcrypt=require('bcrypt');
 
 exports.createuser = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
     // Create a new user in the database
+    const hashedpassword=await bcrypt.hash(password,10);
     console.log('Request received:', req.body);
-    const newUser = await User.create({ name:name,email:email,password:password });
+    const newUser = await User.create({ name:name,email:email,password:hashedpassword });
 
     // Respond with the created user's information
     console.log('user created succesfully');
@@ -24,8 +26,9 @@ exports.createuser = async (req, res) => {
   }
 };
 
-exports.loginuser=async (req,res,next)=>{
-    const {email,password}=req.body;
+exports.loginuser = async (req, res, next) => {
+    const { email, password } = req.body;
+    
     try {
         // Find user by email
         const user = await User.findOne({ where: { email } });
@@ -33,8 +36,9 @@ exports.loginuser=async (req,res,next)=>{
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Check password (insecure - for demonstration purposes only)
-        if (user.password !== password) {
+        // Check password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' });
         }
 
@@ -44,5 +48,4 @@ exports.loginuser=async (req,res,next)=>{
         console.error('Login error:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
-    
-}
+};
