@@ -20,6 +20,7 @@ exports.addexpense = (req, res, next) => {
 }
 
 exports.getexpenses = (req, res, next) => {
+    console.log('get expenses method is called');
     req.user.getExpenses()
     .then((data) => {
         console.log(data);
