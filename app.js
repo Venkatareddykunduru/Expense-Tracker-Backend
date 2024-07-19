@@ -5,6 +5,7 @@ const sequelize=require('./util/database');
 const expenseroutes=require('./routes/expense');
 const userauthroutes=require('./routes/user');
 const paymentroutes=require('./routes/payment');
+const premiumroutes=require('./routes/premium');
 const User=require('./models/user');
 const Expense=require('./models/expense');
 const Order=require('./models/order');
@@ -29,7 +30,7 @@ Order.belongsTo(User);
 app.use('/auth',userauthroutes);
 app.use('/expense',expenseroutes);
 app.use('/payment',paymentroutes);
-
+app.use('/premium',premiumroutes);
 
 PORT=3000; 
 
