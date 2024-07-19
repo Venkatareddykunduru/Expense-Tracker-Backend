@@ -1,13 +1,19 @@
 const Expense = require('../models/expense.js');
 
 exports.addexpense = (req, res, next) => {
-    const amount = req.body.amount;
+    const amount = parseInt(req.body.amount, 10);
     const category = req.body.category;
     const description = req.body.description;
     req.user.createExpense({
         amount: amount,
         category: category,
         description: description
+    })
+    .then(()=>{
+        console.log('Amount:', amount, 'Type:', typeof amount);
+        console.log('TotalExpense:', req.user.totalExpense, 'Type:', typeof req.user.totalExpense);
+        req.user.totalExpense += amount;
+        return req.user.save();
     })
     .then(() => {
         console.log('Expense saved');
