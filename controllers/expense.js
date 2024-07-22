@@ -37,17 +37,43 @@ exports.addexpense = async (req, res, next) => {
     }
 };
 
-exports.getexpenses = (req, res, next) => {
+exports.getexpenses = async (req, res, next) => {
     console.log('get expenses method is called');
-    req.user.getExpenses()
-    .then((data) => {
-        console.log(data);
-        res.json(data);
-    })
-    .catch((err) => {
-        console.log("Error getting expenses: " + err);
-        res.status(500).json({ error: 'Failed to retrieve expenses' });
-    });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 2;
+
+    console.log("page: ",page);
+    console.log("limit: ",limit);
+
+    // Calculate the offset
+    const offset = (page - 1) * limit;
+
+    try {
+        // Assuming req.user is set and is an instance of the User model
+        
+        // Use the association method to fetch paginated expenses
+        const expenses = await req.user.getExpenses({
+            limit,
+            offset,
+            attributes: ['id', 'amount', 'description', 'category'] // Specify required attributes
+        });
+
+        console.log(expenses);
+
+        // Count total expenses for the user
+        const totalItems = await Expense.count({ where: { userId: req.user.id } });
+
+        // Send the results as response
+        res.json({
+            totalItems: totalItems,
+            totalPages: Math.ceil(totalItems / limit),
+            currentPage: page,
+            expenses: expenses
+        });
+    } catch (error) {
+        console.error('Error fetching expenses:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 }
 
 exports.deleteexpense = async (req, res, next) => {
