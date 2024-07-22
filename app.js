@@ -7,11 +7,13 @@ const userauthroutes=require('./routes/user');
 const paymentroutes=require('./routes/payment');
 const premiumroutes=require('./routes/premium');
 const passwordroutes=require('./routes/password');
+const reportroutes=require('./routes/report');
 const User=require('./models/user');
 const Expense=require('./models/expense');
 const Order=require('./models/order');
 const ForgotPasswordRequest=require('./models/forgotPasswordRequest');
-
+const File=require('./models/userdownloads');
+require('dotenv').config();
 
 const app=express();
 app.use(cors());
@@ -23,6 +25,8 @@ User.hasMany(Order);
 Order.belongsTo(User);
 User.hasMany(ForgotPasswordRequest, { foreignKey: 'userId' });
 ForgotPasswordRequest.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(File);
+File.belongsTo(User);
 
 // User.findByPk(1).then((user)=>{
 //     console.log(Object.keys(user.__proto__)); // Outputs all methods available on user instance
@@ -36,6 +40,7 @@ app.use('/password',passwordroutes);
 app.use('/expense',expenseroutes);
 app.use('/payment',paymentroutes);
 app.use('/premium',premiumroutes);
+app.use('/report',reportroutes);
 
 PORT=3000; 
 

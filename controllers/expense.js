@@ -1,5 +1,12 @@
 const Expense = require('../models/expense.js');
 const sequelize=require('../util/database.js');
+const AWS=require('aws-sdk');
+const { Parser } = require('json2csv');
+require('dotenv').config();
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const bucketName = process.env.S3_BUCKET_NAME;
+
 
 exports.addexpense = async (req, res, next) => {
     const amount = parseInt(req.body.amount, 10);
@@ -111,3 +118,54 @@ exports.editexpense = async (req, res, next) => {
         res.status(500).json({ error: 'Failed to update expense' });
     }
 };
+
+
+exports.downloadexpense= async (req,res)=>{
+    AWS.config.update({
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey
+    });
+    try {
+        // Query expenses
+        const expenses = await req.user.getExpenses({
+            attributes: ['id', 'amount', 'description', 'category']
+        });
+        const expensesData = expenses.map(expense => expense.toJSON());
+        
+        // Convert data to CSV
+        const fields = ['id', 'amount', 'description', 'category'];
+        const json2csvParser = new Parser({ fields });
+        const csvData = json2csvParser.parse(expensesData);
+    
+        // Create a filename with current date and time
+        const timestamp = new Date().toISOString().replace(/[:.-]/g, '_');
+        const fileName = `expenses_${timestamp}.csv`;
+    
+        // Upload to S3
+        const s3 = new AWS.S3();
+        const s3Params = {
+          Bucket: bucketName,
+          Key: fileName,
+          Body: csvData,
+          ContentType: 'text/csv',
+          ACL: 'public-read'
+        };
+    
+        // Upload file to S3
+        const uploadResult = await s3.upload(s3Params).promise();
+    
+        // Get the S3 file URL directly from the upload result
+        const fileUrl = uploadResult.Location;
+    
+        // Save file information to the database
+        await req.user.createFile({ filename: fileName, url: fileUrl });
+    
+        // Respond with the file URL and name
+        res.json({ fileUrl, fileName });
+    } 
+    catch (error) {
+        console.error('Error processing download:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+}

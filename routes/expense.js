@@ -9,5 +9,6 @@ router.get('/getexpenses', expenseController.getexpenses);
 router.post('/addexpense', expenseController.addexpense);
 router.delete('/deleteexpense/:id', expenseController.deleteexpense);
 router.put('/editexpense/:id',expenseController.editexpense);
+router.post('/downloadexpenses',expenseController.downloadexpense);
 
 module.exports = router;
