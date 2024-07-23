@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+require('dotenv').config(); // Load environment variables from .env file
 
 module.exports = async function(req, res, next) {
     const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
@@ -8,7 +9,7 @@ module.exports = async function(req, res, next) {
     }
 
     try {
-        const decoded = jwt.verify(token, 'reddygaru@143');
+        const decoded = jwt.verify(token,process.env.JWT_PRIVATE_KEY);
         const user = await User.findByPk(decoded.id); // Fetch user from database if needed
         req.user = user; // Attach user object to req.user
         next();

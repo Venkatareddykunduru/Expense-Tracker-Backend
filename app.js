@@ -42,12 +42,12 @@ app.use('/payment',paymentroutes);
 app.use('/premium',premiumroutes);
 app.use('/report',reportroutes);
 
-PORT=3000; 
+ 
 
 (async () => {
     try {
         await sequelize.sync();
-        app.listen(PORT, () => {
+        app.listen(process.env.PORT, () => {
             console.log(`Server is listening on port ${PORT}`);
         });
     } catch (err) {
