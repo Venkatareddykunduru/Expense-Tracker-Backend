@@ -48,7 +48,7 @@ app.use('/report',reportroutes);
     try {
         await sequelize.sync();
         app.listen(process.env.PORT, () => {
-            console.log(`Server is listening on port ${PORT}`);
+            console.log(`Server is listening on port ${process.env.PORT}`);
         });
     } catch (err) {
         console.log('Unable to start server : '+err);
