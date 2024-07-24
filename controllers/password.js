@@ -63,7 +63,7 @@ exports.getResetPasswordForm = async (req, res, next) => {
                         axios.post(\`/password/resetpassword/\${id}\`, { password })
                             .then(response => {
                                 alert('Password reset successfully');
-                                window.location.href = 'http://127.0.0.1:5500/login.html'; // Redirect to login page
+                                
                             })
                             .catch(error => {
                                 console.error('Error resetting password:', error);
