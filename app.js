@@ -14,6 +14,8 @@ const Order=require('./models/order');
 const ForgotPasswordRequest=require('./models/forgotPasswordRequest');
 const File=require('./models/userdownloads');
 require('dotenv').config();
+const path = require('path');
+
 
 const app=express();
 app.use(cors());
@@ -41,6 +43,10 @@ app.use('/expense',expenseroutes);
 app.use('/payment',paymentroutes);
 app.use('/premium',premiumroutes);
 app.use('/report',reportroutes);
+
+app.use((req,res)=>{
+    res.sendFile(path.join(__dirname,`public/${req.url}`));
+});
 
  
 
