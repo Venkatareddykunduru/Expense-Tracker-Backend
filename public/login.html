@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div id="login-form">
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            <div class="form-toggle">
+                <span>Not registered?</span>
+                <a href="signup.html">Register here</a>
+            </div>
+            <div class="form-toggle">
+                <span>Forgot your password?</span>
+                <button id="forgot-password-btn">Reset Password</button>
+            </div>
+            <div id="forgot-password-form" style="display: none;">
+                <h2>Forgot Password</h2>
+                <label for="reset-email">Email:</label>
+                <input type="email" id="reset-email" name="reset-email" required>
+                <button id="send-reset-email-btn">Send Reset Email</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>

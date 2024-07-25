@@ -16,7 +16,7 @@ exports.forgotPassword = async (req, res, next) => {
         const id = uuidv4();
         await ForgotPasswordRequest.create({ id, userId: user.id, isActive: true });
 
-        const resetUrl = `http://localhost:3000/password/resetpassword/${id}`;
+        const resetUrl = `http://54.146.59.50:3000/password/resetpassword/${id}`;
         await sendResetEmail(user.email, resetUrl);
 
         res.status(200).json({ message: 'Reset password email sent' });
