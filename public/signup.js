@@ -5,7 +5,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
     const password = document.getElementById('password').value;
 
     try {
-        const response = await axios.post('http://54.146.59.50:3000/auth/signup', { name, email, password });
+        const response = await axios.post('http://35.153.50.19:3000/auth/signup', { name, email, password });
         if (response.status === 201) {
             alert('Registration successful. Redirecting to login page.');
             window.location.href = 'login.html';

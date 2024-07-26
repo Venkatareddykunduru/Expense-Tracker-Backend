@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     showLeaderboardButton.addEventListener('click', function () {
-        axios.get('http://54.146.59.50:3000/premium/leaderboard', {
+        axios.get('http://35.153.50.19:3000/premium/leaderboard', {
             headers: { 'Authorization': `Bearer ${token}` }
         })
         .then(response => {
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Add event listener for delete button
         li.querySelector('.delete-btn').addEventListener('click', function () {
             const id = this.getAttribute('data-id');
-            axios.delete(`http://54.146.59.50:3000/expense/deleteexpense/${id}`, {
+            axios.delete(`http://35.153.50.19:3000/expense/deleteexpense/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(() => {
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Add event listener for edit button
         li.querySelector('.edit-btn').addEventListener('click', function () {
             editId = this.getAttribute('data-id');
-            // axios.get(`http://54.146.59.50:3000/expense/getexpense/${editId}`, {
+            // axios.get(`http://35.153.50.19:3000/expense/getexpense/${editId}`, {
             //     headers: { Authorization: `Bearer ${token}` }
             // })
             // .then(response => {
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderExpenses(page) {
-        axios.get(`http://54.146.59.50:3000/expense/getexpenses?page=${page}&limit=${limit}`, {
+        axios.get(`http://35.153.50.19:3000/expense/getexpenses?page=${page}&limit=${limit}`, {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(response => {
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const newExpense = { amount, description, category };
 
         if (editId !== null) {
-            axios.put(`http://54.146.59.50:3000/expense/editexpense/${editId}`, newExpense, {
+            axios.put(`http://35.153.50.19:3000/expense/editexpense/${editId}`, newExpense, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(() => {
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 errorMessage.textContent = 'Error updating expense';
             });
         } else {
-            axios.post('http://54.146.59.50:3000/expense/addexpense', newExpense, {
+            axios.post('http://35.153.50.19:3000/expense/addexpense', newExpense, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(() => {

@@ -4,7 +4,7 @@ document.getElementById('login-form').addEventListener('submit', async function(
     const password = document.getElementById('password').value;
 
     try {
-        const response = await axios.post('http://54.146.59.50:3000/auth/login', { email, password });
+        const response = await axios.post('http://35.153.50.19:3000/auth/login', { email, password });
         if (response.status === 200) {
             alert('Login successful. Redirecting to expense page.');
             window.localStorage.setItem('token', response.data.token); // Store the token
@@ -23,7 +23,7 @@ document.getElementById('forgot-password-btn').addEventListener('click', functio
 
 document.getElementById('send-reset-email-btn').addEventListener('click', function() {
     const email = document.getElementById('reset-email').value;
-    axios.post('http://54.146.59.50:3000/password/forgotpassword', { email })
+    axios.post('http://35.153.50.19:3000/password/forgotpassword', { email })
         .then(response => {
             alert('Reset password email sent');
         })

@@ -1,7 +1,7 @@
 document.getElementById('buy-premium').addEventListener('click', function () {
     const buyPremiumButton = document.getElementById('buy-premium');
     const showLeaderboardButton = document.getElementById('show-leaderboard');
-    axios.post('http://54.146.59.50:3000/payment/create-order', {}, {
+    axios.post('http://35.153.50.19:3000/payment/create-order', {}, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -18,7 +18,7 @@ document.getElementById('buy-premium').addEventListener('click', function () {
             //"image": "https://example.com/your_logo",
             "order_id": razorpayOrderId,
             "handler": function (response) {
-                axios.post('http://54.146.59.50:3000/payment/verify-payment', {
+                axios.post('http://35.153.50.19:3000/payment/verify-payment', {
                     razorpayPaymentId: response.razorpay_payment_id,
                     razorpayOrderId: response.razorpay_order_id
                 }, {
@@ -58,7 +58,7 @@ document.getElementById('buy-premium').addEventListener('click', function () {
 
         rzp1.on('payment.failed', function (response) {
             console.log(response.error);
-            axios.post('http://54.146.59.50:3000/payment/payment-failed', {
+            axios.post('http://35.153.50.19:3000/payment/payment-failed', {
                 razorpayOrderId: response.error.metadata.order_id,
                 razorpayPaymentId: response.error.metadata.payment_id
             }, {
