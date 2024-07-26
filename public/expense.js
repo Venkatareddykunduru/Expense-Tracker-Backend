@@ -34,6 +34,11 @@ document.addEventListener('DOMContentLoaded', function () {
         renderExpenses(1); // Re-render expenses with new limit starting from the first page
     });
 
+    document.getElementById('signout-button').addEventListener('click', function() {
+        localStorage.removeItem('token'); // or sessionStorage.removeItem('token')
+        window.location.href = 'login.html'; // Redirect to the login page
+    });
+
     document.getElementById('prev-page').addEventListener('click', () => {
         if (currentPage > 1) {
             renderExpenses(currentPage - 1);
