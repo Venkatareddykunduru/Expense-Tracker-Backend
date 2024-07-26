@@ -37,6 +37,8 @@ exports.generatereport=async (req,res)=>{
             return acc;
         }, {});
 
+        //console.log(groupedData);
+
         res.json(groupedData);
     }
     catch(error){
