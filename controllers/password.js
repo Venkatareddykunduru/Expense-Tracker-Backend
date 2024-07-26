@@ -97,7 +97,7 @@ exports.resetPassword = async (req, res, next) => {
 
         // Add logging for debugging
         console.log('Resetting password for user:', user.email);
-        console.log('New password:', password);
+        //console.log('New password:', password);
 
         const hashedPassword = await bcrypt.hash(password, 12);
         user.password = hashedPassword;

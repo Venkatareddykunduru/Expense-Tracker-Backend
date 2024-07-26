@@ -58,7 +58,7 @@ exports.getexpenses = async (req, res, next) => {
             attributes: ['id', 'amount', 'description', 'category'] // Specify required attributes
         });
 
-        console.log(expenses);
+        //console.log(expenses);
 
         // Count total expenses for the user
         const totalItems = await Expense.count({ where: { userId: req.user.id } });
